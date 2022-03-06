@@ -56,6 +56,47 @@ Good luck and happy coding!
 tables
 https://bit.ly/3Cbgyg3
 
+solution
+
+
+  Extra Columns
+    I choose this solution because I had experience of somethings similar on old project
+
+    pre create table buyer and supplier with fixed columns 
+    create a table title to remember the mapping field to label of the excel
+
+  pro
+     that works fine for performance
+  cons
+    you can run out of extra columns
+    the same columns contains different data but if you are download the entire project on the client should not matter
+    desciptive name are need to be founded on the other table title, but it is easy to manange with react
+
+  *** other
+  Entity Attribute Value
+      I had also experiense on solution Entity Attribute Value that each attribute value is a separate row nut:
+      too many inner join needed and to many insert you cannot have indexes, search don't scale, data type is hard ( you need again more column)
+
+  use XML or JSON
+    har query and index
+
+  use NOSQL
+    can be a solution but also here not sure
+
+
+
+
+
+
+
+****
+  for try to clean column value
+  I implemented an example that if on a columns with strings that many contain a number, is possible to create a new column just with the number (called wih Extra)
+
+
+
+
+
 
 
 sample query
