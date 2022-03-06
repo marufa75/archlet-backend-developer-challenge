@@ -70,7 +70,6 @@ export const calcTypeArr = (values: string[]): TYPE_COL => {
     if (res === TYPE_COL.STRING) return TYPE_COL.STRING;
     const type = calcType(value);
     if (type === TYPE_COL.STRING) {
-      console.log('STRING', value);
       return TYPE_COL.STRING;
     }
     if (type === TYPE_COL.FLOAT) return TYPE_COL.FLOAT;
