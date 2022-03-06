@@ -50,3 +50,26 @@ You will receive an invite from us to present and discuss your solution with our
 This task is designed to take 2-3 hours to complete. Please do not invest much more time than that. Instead of rushing to make sure that all the functionality is there, we would rather see clear API definitions for everything and a few well implemented parts.
 This way we will have a good starting point for the review meeting. If you have any questions, do not hesitate to reach out to us.
 Good luck and happy coding!
+
+
+
+tables
+https://bit.ly/3Cbgyg3
+
+
+
+sample query
+
+query   {
+  project (id:"1426787c-2456-4ee5-b319-abb662e3e51f", organizationId:"2024cf11-20c6-4a45-ba9d-44ed10878c04") {
+    id name titles {
+        id  label field forBuyer
+    } buyers {
+        id txt01 int01 suppliers {
+            id txt01 int01
+        }
+    }
+  }
+}
+
+
