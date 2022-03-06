@@ -6,10 +6,6 @@ export enum TYPE_COL {
   FLOAT
 }
 
-export enum SPLIT_MODE {
-  NOTHING,
-  NUMBER   
-}
 
 
 export const valueForKey = (v: any) => {
@@ -23,17 +19,19 @@ export const valueClean = (v: any) => {
 }
 
 export const stringContainFloatOrInt = (v: string) => {
-  return (v||"").split(' ').find(isFloatOrInt);
+  return (v || "").split(' ').find(isFloatOrInt);
 }
 export const stringsManyContainFloatOrInt = (values: string[]) => {
-  const mapCol= values.map(stringContainFloatOrInt);
-  const countValues = mapCol.filter(el => el !== undefined).length; 
-  const countNewValues = mapCol.filter((el, idx) => el !== undefined && el !== values[idx]).length; //something new
-  return (countNewValues >0 && countValues>=values.length/2) ? mapCol as string[]: undefined; 
+  if (calcTypeArr(values)=== TYPE_COL.STRING) {
+    const mapCol = values.map(stringContainFloatOrInt);
+    const countValues = mapCol.filter(el => el !== undefined).length;
+    return (countValues >= values.length / 2) ? mapCol as string[] : undefined;
+  }
+  return undefined;
 }
 export const isFloatOrInt = (v: string) => {
   const vt = (v || "").replace(",", ".");
-  return  (/^[+-]?(\d*[.])?\d+$/.test(vt)) ? vt: undefined;
+  return (/^[+-]?(\d*[.])?\d+$/.test(vt)) ? vt : undefined;
 }
 export const valueIsFloat = (v: string): [boolean, number | undefined] => {
   const vt = (v || "").replace(",", ".");
@@ -59,7 +57,7 @@ export const valueIsInt = (v: string): [boolean, number | undefined] => {
 
 
 export const calcType = (value: string): TYPE_COL => {
-  if (value === undefined || value === null || value ==="") return TYPE_COL.EMPTY;
+  if (value === undefined || value === null || value === "") return TYPE_COL.EMPTY;
   const [isFloat] = valueIsFloat(value);
   if (isFloat) return TYPE_COL.FLOAT;
   const [isInt] = valueIsInt(value);
@@ -67,11 +65,14 @@ export const calcType = (value: string): TYPE_COL => {
   return TYPE_COL.STRING;
 }
 
-export const  calcTypeArr = (values: string[]): TYPE_COL => {
-  return values.reduce( (res: TYPE_COL, value) => {
+export const calcTypeArr = (values: string[]): TYPE_COL => {
+  return values.reduce((res: TYPE_COL, value) => {
     if (res === TYPE_COL.STRING) return TYPE_COL.STRING;
     const type = calcType(value);
-    if (type === TYPE_COL.STRING) return TYPE_COL.STRING;
+    if (type === TYPE_COL.STRING) {
+      console.log('STRING', value);
+      return TYPE_COL.STRING;
+    }
     if (type === TYPE_COL.FLOAT) return TYPE_COL.FLOAT;
     if (type === TYPE_COL.INT && res === TYPE_COL.EMPTY) return TYPE_COL.INT;
     return res;
