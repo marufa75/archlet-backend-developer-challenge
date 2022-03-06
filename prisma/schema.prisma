@@ -26,88 +26,88 @@ model Project {
 
 
 model Buyer {
-  id       String    @id @default(uuid())
+  id       String    @id
   projectId String
   project  Project   @relation(fields: [projectId], references: [id])
 
   suppliers Supplier[]
 
-  txt01 String
-  txt02 String
-  txt03 String
-  txt04 String
-  txt05 String
-  txt06 String
-  txt07 String
-  txt08 String
-  txt09 String
-  txt10 String
+  txt01 String?
+  txt02 String?
+  txt03 String?
+  txt04 String?
+  txt05 String?
+  txt06 String?
+  txt07 String?
+  txt08 String?
+  txt09 String?
+  txt10 String?
 
-  int01 Int
-  int02 Int
-  int03 Int
-  int04 Int
-  int05 Int
-  int06 Int
-  int07 Int
-  int08 Int
-  int09 Int
-  int10 Int
+  int01 Int?
+  int02 Int?
+  int03 Int?
+  int04 Int?
+  int05 Int?
+  int06 Int?
+  int07 Int?
+  int08 Int?
+  int09 Int?
+  int10 Int?
 
-  flt01 Float
-  flt02 Float
-  flt03 Float
-  flt04 Float
-  flt05 Float
-  flt06 Float
-  flt07 Float
-  flt08 Float
-  flt09 Float
-  flt10 Float
+  flt01 Float?
+  flt02 Float?
+  flt03 Float?
+  flt04 Float?
+  flt05 Float?
+  flt06 Float?
+  flt07 Float?
+  flt08 Float?
+  flt09 Float?
+  flt10 Float?
 }
 
 
 model Supplier {
-  id       String    @id @default(uuid())
+  id       String    @id 
   buyerId String
   buyer  Buyer   @relation(fields: [buyerId], references: [id])
 
-  txt01 String
-  txt02 String
-  txt03 String
-  txt04 String
-  txt05 String
-  txt06 String
-  txt07 String
-  txt08 String
-  txt09 String
-  txt10 String
+  txt01 String?
+  txt02 String?
+  txt03 String?
+  txt04 String?
+  txt05 String?
+  txt06 String?
+  txt07 String?
+  txt08 String?
+  txt09 String?
+  txt10 String?
 
-  int01 Int
-  int02 Int
-  int03 Int
-  int04 Int
-  int05 Int
-  int06 Int
-  int07 Int
-  int08 Int
-  int09 Int
-  int10 Int
+  int01 Int?
+  int02 Int?
+  int03 Int?
+  int04 Int?
+  int05 Int?
+  int06 Int?
+  int07 Int?
+  int08 Int?
+  int09 Int?
+  int10 Int?
 
-  flt01 Float
-  flt02 Float
-  flt03 Float
-  flt04 Float
-  flt05 Float
-  flt06 Float
-  flt07 Float
-  flt08 Float
-  flt09 Float
-  flt10 Float
+  flt01 Float?
+  flt02 Float?
+  flt03 Float?
+  flt04 Float?
+  flt05 Float?
+  flt06 Float?
+  flt07 Float?
+  flt08 Float?
+  flt09 Float?
+  flt10 Float?
 }
 
 model Title {
-  id             String       @id @default(uuid())
+  id             String       @id
   projectId String
   project   Project @relation(fields: [projectId], references: [id])
   label String

@@ -5,7 +5,7 @@ import { calcTypeArr, TYPE_COL, valueClean, valueForKey } from "../util/parse";
 
 
 
-export type COL_NAME_TYPE = {
+export interface COL_NAME_TYPE  {
   name: string,
   type: TYPE_COL
 }
@@ -22,10 +22,18 @@ export class BidExcel {
     if (!row || !row.length) throw new Error("Invalid Row");
     const rows = row as CellValue[];
     if (rows.length < 2) throw new Error("Invalid Row");
-    return rows.map(row => row ? valueClean(row.valueOf()).toString() : "");
+    return rows.filter(row => !!row)
+    .map((el:any) => {
+      if(typeof el === 'object') {
+        if (el.result) return el.result;
+        return JSON.stringify(el);
+      } 
+      return el;
+    })
+    .map(row => row ? valueClean(row.valueOf()).toString() : "");
   }
   static toCellsValues = (rows: RowValues[]): string[][] => {
-    return rows.map(BidExcel.toCellValues);
+    return rows.map(BidExcel.toCellValues).filter(row => !!row);
   }
   constructor(worksheet: Worksheet) {
     this.worksheet = worksheet;
