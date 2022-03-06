@@ -6,6 +6,12 @@ export enum TYPE_COL {
   FLOAT
 }
 
+export enum SPLIT_MODE {
+  NOTHING,
+  NUMBER   
+}
+
+
 export const valueForKey = (v: any) => {
   if (typeof v === "string") return v.trim().toLowerCase().replace(/ |\t|\n|\r/g, "");
   return v || "";
@@ -16,10 +22,23 @@ export const valueClean = (v: any) => {
   return v;
 }
 
+export const stringContainFloatOrInt = (v: string) => {
+  return (v||"").split(' ').find(isFloatOrInt);
+}
+export const stringsManyContainFloatOrInt = (values: string[]) => {
+  const mapCol= values.map(stringContainFloatOrInt);
+  const countValues = mapCol.filter(el => el !== undefined).length; 
+  const countNewValues = mapCol.filter((el, idx) => el !== undefined && el !== values[idx]).length; //something new
+  return (countNewValues >0 && countValues>=values.length/2) ? mapCol as string[]: undefined; 
+}
+export const isFloatOrInt = (v: string) => {
+  const vt = (v || "").replace(",", ".");
+  return  (/^[+-]?(\d*[.])?\d+$/.test(vt)) ? vt: undefined;
+}
 export const valueIsFloat = (v: string): [boolean, number | undefined] => {
   const vt = (v || "").replace(",", ".");
 
-  if (/^\d+\.\d+$/.test(vt)) {
+  if (/^[+-]?(\d*[.])\d+$/.test(vt)) {
     const value = parseFloat(vt);
     if (!isNaN(value)) {
       return [true, value];

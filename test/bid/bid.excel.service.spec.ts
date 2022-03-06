@@ -21,7 +21,8 @@ describe('bid/bid excel service tests', () => {
     ['a1', '1', 's1'],
     ['a2', '2', 's1'],
     ['a1', '1', 's2'],
-  ]
+  ];
+
   it('calculateDataset', () => {
     const value = BidExcel.calculateDataset(bidData.slice(2), 2);
     const keys = Object.keys(value);
@@ -35,6 +36,23 @@ describe('bid/bid excel service tests', () => {
     expect(el1.buyer).to.be.eql(['a1', '1']);
     expect(el1.supplier.length).to.be.equals(2);
     expect(el2.supplier.length).to.be.equals(1);
+  });
+  it('findAndSplitCols', () => {
+
+    const bidDataNeedSplit: string[][] = [
+      ['buy', 'buy', 'sup'],
+      ['a', 'b', 's'],
+      ['a1', '1 a', 's1'],
+      ['a2', '2', 's1'],
+      ['a1', '1 b', 's2'],
+    ];
+
+    BidExcel.findAndSplitCols(bidDataNeedSplit);
+
+    expect(bidDataNeedSplit[0].length).to.equal(4);
+    expect(bidDataNeedSplit[1][1]).to.equal('b extra');
+    expect(bidDataNeedSplit[2][1]).to.equal('1');
+
   });
 
 

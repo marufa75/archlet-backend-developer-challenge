@@ -1,6 +1,5 @@
 import { Workbook } from 'exceljs'
 import { idArg, mutationField, nonNull, stringArg } from 'nexus'
-import { NexusGenFieldTypes } from '../../nexus-typegen'
 import { mapAndStoreWorksheetToDb } from '../bid/excel.mapping.service'
 
 export const uploadBidsheet = mutationField('uploadBidsheet', {

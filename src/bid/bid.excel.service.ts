@@ -1,11 +1,11 @@
 import { CellValue, RowValues, Worksheet } from "exceljs";
-import { calcTypeArr, TYPE_COL, valueClean, valueForKey } from "../util/parse";
+import { calcTypeArr, stringContainFloatOrInt, stringsManyContainFloatOrInt, TYPE_COL, valueClean, valueForKey } from "../util/parse";
 
 
 
 
 
-export interface COL_NAME_TYPE  {
+export interface COL_NAME_TYPE {
   name: string,
   type: TYPE_COL
 }
@@ -23,14 +23,14 @@ export class BidExcel {
     const rows = row as CellValue[];
     if (rows.length < 2) throw new Error("Invalid Row");
     return rows.filter(row => !!row)
-    .map((el:any) => {
-      if(typeof el === 'object') {
-        if (el.result) return el.result;
-        return JSON.stringify(el);
-      } 
-      return el;
-    })
-    .map(row => row ? valueClean(row.valueOf()).toString() : "");
+      .map((el: any) => {
+        if (typeof el === 'object') {
+          if (el.result) return el.result;
+          return JSON.stringify(el);
+        }
+        return el;
+      })
+      .map(row => row ? valueClean(row.valueOf()).toString() : "");
   }
   static toCellsValues = (rows: RowValues[]): string[][] => {
     return rows.map(BidExcel.toCellValues).filter(row => !!row);
@@ -38,6 +38,7 @@ export class BidExcel {
   constructor(worksheet: Worksheet) {
     this.worksheet = worksheet;
     const ws = BidExcel.toCellsValues(this.worksheet.getSheetValues());
+    BidExcel.findAndSplitCols(ws);
     const { colsBuyer, colsSupplier, dataset } = this.elaborate(ws);
     this.colsBuyer = colsBuyer;
     this.colsSupplier = colsSupplier;
@@ -90,6 +91,25 @@ export class BidExcel {
     const colsBuyer = colsSupplier.splice(0, postStartSupplier);
     return { colsBuyer, colsSupplier };
   }
-}
 
+ 
+  static findAndSplitCols(ws: string[][]) {
+    const values = ws.slice(2); // remove 2 header
+    const columns = values[0].map((_, colIndex) => values.map(row => row[colIndex]));
+
+    for(let i = columns.length-1; i>=0;i--) {
+      const optExtractCol = stringsManyContainFloatOrInt(columns[i]);
+      if (optExtractCol) {
+          optExtractCol.unshift(ws[1][i] + ' extra'); //change name new col 
+          optExtractCol.unshift(ws[0][i]);  //copy the first header
+
+          optExtractCol.forEach( (v, idx) => {
+            ws[idx].splice(i,0, v);
+          });
+          
+      }
+    }
+  }
+
+}
 
