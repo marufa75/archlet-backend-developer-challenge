@@ -56,6 +56,30 @@ Good luck and happy coding!
 tables
 https://bit.ly/3Cbgyg3
 
+
+```Graphviz (DOT)
+graph ER {
+	node [shape=box]; organization; project; buyer; supplier; title;
+	node [shape=diamond,style=filled,color=lightgrey]; "O-P"; "P-B"; "B-S"; "P-T";
+
+	organization -- "O-P" [label="1",len=1.00];
+	"O-P" -- project [label="n",len=1.00];
+
+	project -- "P-B" [label="1",len=1.00];
+	"P-B" -- buyer [label="n",len=1.00];
+
+	buyer -- "B-S" [label="1",len=1.00];
+	"B-S" -- supplier [label="n",len=1.00];
+
+
+	project -- "P-T" [label="1",len=1.00];
+	"P-T" -- title [label="n",len=1.00];
+
+	fontsize=15;
+}
+```
+
+
 solution
 
 
@@ -100,7 +124,7 @@ solution
 
 
 sample query
-
+```GraphQL
 query   {
   project (id:"1426787c-2456-4ee5-b319-abb662e3e51f", organizationId:"2024cf11-20c6-4a45-ba9d-44ed10878c04") {
     id name titles {
@@ -112,5 +136,5 @@ query   {
     }
   }
 }
-
+```
 
