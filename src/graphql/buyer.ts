@@ -8,7 +8,7 @@ export const Buyer = objectType({
     t.nonNull.list.nonNull.field('suppliers', {
       type: 'Supplier',
       resolve: (parent, _args, context) => {
-        return context.prisma.suppliers.findMany({
+        return context.prisma.supplier.findMany({
           where: { buyerId: parent.id },
         })
       },
